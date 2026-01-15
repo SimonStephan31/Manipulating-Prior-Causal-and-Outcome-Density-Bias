@@ -4,8 +4,6 @@ This repository contains all materials for the paper "Manipulating Prior Causal 
 
 ```
 +---data_and_analysis
-|   \---eval_exp_files
-|       \---figure-html
 \---experiment_files
     +---img
     \---jspsych
