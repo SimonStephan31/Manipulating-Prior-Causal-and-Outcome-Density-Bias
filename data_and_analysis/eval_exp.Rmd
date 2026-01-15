@@ -1,6 +1,6 @@
 ---
 title: "Analysis"
-author: "Simon Stephan"
+author: ""
 date: ""
 output: html_document
 ---
