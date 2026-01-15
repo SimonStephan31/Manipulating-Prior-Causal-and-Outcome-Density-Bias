@@ -1,7 +1,7 @@
 ---
-title: "eval"
+title: "Analysis"
 author: "Simon Stephan"
-date: "10 11 2020"
+date: ""
 output: html_document
 ---
 
@@ -18,7 +18,7 @@ library(data.table)
 library(tidyverse)
 
 library(dplyr)                                                  # Load dplyr package
-library(plyr)                                                   # Load plyr package
+#library(plyr)                                                   # Load plyr package
 library(readr)                                                  # Load readr package
 ```
 
@@ -403,22 +403,6 @@ table(data$condition)
 ```
 
 
-```{r}
-# exclude last participants in the 0_0 conditions (because we aimed for N = 50 in each condition)
-library(dplyr)
-
-data <- data %>%
-  arrange(machine, contingency, recorded_at) %>%   # earliest -> latest within condition
-  group_by(machine, contingency) %>%
-  slice_head(n = 50) %>%                           # keep first 50 per condition
-  ungroup()
-
-
-table(data$machine, data$contingency)
-table(data$condition)
-```
-
-
 
 # Analysis
 
@@ -662,41 +646,7 @@ deltas
 ```
 
 
-Now make a plot that shows the mean difference (together with the 95% CI) between prior and posterior structure ratings for each machine and contingency condition.
 
-```{r}
-data_diff <- data %>%
-  mutate(rating_diff = structure_rating_posterior - structure_rating_prior) %>%
-  group_by(machine, contingency) %>%
-  summarise(
-    mean_diff = mean(rating_diff, na.rm = TRUE),
-    ci_lower = mean_diff - qt(0.975, df = n() - 1) * sd(rating_diff, na.rm = TRUE) / sqrt(n()),
-    ci_upper = mean_diff + qt(0.975, df = n() - 1) * sd(rating_diff, na.rm = TRUE) / sqrt(n())
-  )
-```
-Now make a plot that visualizes this 
-
-```{r}
-ggplot(data_diff, aes(x = contingency, y = mean_diff, fill = machine)) +
-  #facet_wrap(~ contingency) +
-  geom_bar(stat = "identity", position = position_dodge(width = 0.9), width = 0.7) +
-  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), 
-                position = position_dodge(width = 0.9), width = 0.2) +
-  scale_fill_manual(values = machine_colors) +
-  labs(
-    title = "Change in Structure Ratings (Posterior - Prior)",
-    x = "Contingency",
-    y = "Mean Difference"
-  ) +
-  theme_minimal(base_size = 14) +
-  theme(
-    legend.position = "top",
-    axis.text.x = element_text(angle = 25, hjust = 1)
-  ) -> p2
-p2
-# save plot 
-ggsave("delta.svg", plot = p2, width = 6, height = 4)
-```
 
 Compute the different between prior and posterior for each participant and append it to data frame 
 
@@ -717,7 +667,7 @@ data <- data %>%
 ```
 
 
-Now make a plot that shows the proportions of these rating_diff_type for each machine and contingency condition; as error bars, show 95% Propotion CIs (using binom.confint from the binom package)
+Now make a plot that shows the proportions of these rating_diff_type for each machine and contingency condition; as error bars, show 95% Proportion CIs (using binom.confint from the binom package)
 
 ```{r}
 library(binom)
