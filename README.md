@@ -1,4 +1,4 @@
-# Explicit representations of device mechanisms
+# Manipulating Prior Causal Beliefs Through Causal Mechanism Information Affects the Outcome-Density Bias
 
 This repository contains all materials for the paper "Manipulating Prior Causal Beliefs Through Causal Mechanism Information Affects the Outcome-Density Bias".
 
