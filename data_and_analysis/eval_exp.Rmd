@@ -660,8 +660,8 @@ Code for each participate what kind of rating difference occurred: no difference
 ```{r}
 data <- data %>%
   mutate(rating_diff_type = case_when(
-    rating_diff > 5 ~ "increase",
-    rating_diff < -5 ~ "decrease",
+    rating_diff > 0 ~ "increase",
+    rating_diff < 0 ~ "decrease",
     TRUE ~ "same"
   ))
 ```
